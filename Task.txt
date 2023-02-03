@@ -1,0 +1,16 @@
+Comments in 10% Presentation:
+ 1. Revise agenda, motivation, scope of presentation. 
+ 2. Service based filtering, task based filtering. 
+ Locality, time and money base filtering must be done. 
+ 3. Recommendation based on skills and feedback. 
+
+Task for 30%: 
+ 1. Complete profile of maid and user location on map visible.
+ 2. All UI & authentication should be done.
+
+
+Email Auth
+Phone (OTP)
+Google Auth
+
+male-female
