@@ -167,4 +167,69 @@ export default {
       );
     }
   },
+  ChangePassword: async (req, res, next) => {
+    try {
+      const change_Pass_schema = Joi.object({
+        authID: Joi.string().required(),
+        password: Joi.string().required(),
+      });
+
+      const validatesResult = await change_Pass_schema.validateAsync(req.body, {
+        errors: true,
+        warnings: true,
+      });
+
+      // Find the Auth exist in DB
+      const check_user = await Auth.findOne({
+        where: {
+          id: validatesResult.value.authID,
+        },
+      });
+
+      if (!check_user) {
+        return next(
+          createHttpError(406, {
+            success: false,
+            message: "User is not Exists.",
+          })
+        );
+      } else {
+        // Convert into hash
+        const hash_password = await Bcrypt.hash(
+          validatesResult.value.password,
+          10
+        ).then((res) => res);
+
+        // Update the password
+        const AuthUpdate = await Auth.update(
+          {
+            password: hash_password,
+          },
+          {
+            where: {
+              id: validatesResult.value.authID,
+            },
+          }
+        )
+          .then(() => {
+            return res.status(201).send({
+              success: true,
+              message: "Password Updated Successfully.",
+            });
+          })
+          .catch((error) => {
+            return next(
+              createHttpError(406, {
+                success: false,
+                message: error.message && error.errors,
+              })
+            );
+          });
+      }
+    } catch (error) {
+      return next(
+        createHttpError(406, { success: false, message: error.message })
+      );
+    }
+  },
 };
