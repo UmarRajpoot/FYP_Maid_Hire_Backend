@@ -130,4 +130,41 @@ export default {
       );
     }
   },
+  getProfile: async (req, res, next) => {
+    try {
+      const get_profile_schema = Joi.object({
+        authprofileID: Joi.string().required(),
+      });
+
+      const validatesResult = await get_profile_schema.validateAsync(req.body, {
+        errors: true,
+        warnings: true,
+      });
+
+      const get_profile = await AuthProfile.findOne({
+        where: {
+          id: validatesResult.value.authprofileID,
+        },
+      })
+        .then((resp) => {
+          return res.status(201).send({
+            success: true,
+            message: resp.dataValues,
+          });
+        })
+        .catch((error) => {
+          return next(
+            createHttpError(406, {
+              success: false,
+              message: error.message && error.errors,
+            })
+          );
+        });
+    } catch (error) {
+      // console.log(error.message);
+      return next(
+        createHttpError(406, { success: false, message: error.message })
+      );
+    }
+  },
 };
