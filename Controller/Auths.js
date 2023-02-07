@@ -149,7 +149,67 @@ export default {
           .then(() => {
             return res.status(201).send({
               success: true,
-              message: "Updated Successfully.",
+              message: "Updated Maid Listing ID Successfully.",
+            });
+          })
+          .catch((error) => {
+            return next(
+              createHttpError(406, {
+                success: false,
+                message: error.message && error.errors,
+              })
+            );
+          });
+      }
+    } catch (error) {
+      return next(
+        createHttpError(406, { success: false, message: error.message })
+      );
+    }
+  },
+  updateProfileID: async (req, res, next) => {
+    try {
+      const authProfile_Update_schema = Joi.object({
+        authID: Joi.string().required(),
+        authprofileID: Joi.string().required(),
+      });
+
+      const validatesResult = await authProfile_Update_schema.validateAsync(
+        req.body,
+        {
+          errors: true,
+          warnings: true,
+        }
+      );
+
+      const check_user = await Auth.findOne({
+        where: {
+          id: validatesResult.value.authID,
+        },
+      });
+
+      if (!check_user) {
+        return next(
+          createHttpError(406, {
+            success: false,
+            message: "User is not Exists.",
+          })
+        );
+      } else {
+        const AuthUpdate = await Auth.update(
+          {
+            AuthProfileId: validatesResult.value.authprofileID,
+          },
+          {
+            where: {
+              id: validatesResult.value.authID,
+            },
+          }
+        )
+          .then(() => {
+            return res.status(201).send({
+              success: true,
+              message: "Updated Profile ID Successfully.",
             });
           })
           .catch((error) => {
