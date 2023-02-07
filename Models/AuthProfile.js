@@ -1,30 +1,20 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../Config/ModelConfig.js";
 
-const Auth = sequelize.define("Auths", {
+const AuthProfile = sequelize.define("AuthProfile", {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
   },
-
-  email: {
+  username: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-    },
   },
-  password: {
-    type: Sequelize.TEXT,
-    allowNull: false,
-  },
-  emailVerified: {
+  photoURL: {
     type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: false,
+    allowNull: true,
   },
 });
 
-export default Auth;
+export default AuthProfile;

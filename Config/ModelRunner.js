@@ -1,8 +1,17 @@
 import sequelize from "./ModelConfig.js";
+// For Authentication
 import Auths from "../Models/Auths.js";
+// For Maid Profile for Listing
 import MaidProfile from "../Models/MaidProfile.js";
+// For Auth Profile for image and username
+import AuthProfile from "../Models/AuthProfile.js";
 
 MaidProfile.hasOne(Auths, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+AuthProfile.hasOne(Auths, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });

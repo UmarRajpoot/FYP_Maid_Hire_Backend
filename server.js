@@ -6,6 +6,7 @@ import ModelRunner from "./Config/ModelRunner.js";
 import sys from "os";
 import AuthRoute from "./Routes/Auths.js";
 import MaidProfile from "./Routes/MaidProfile.js";
+import AuthProfile from "./Routes/AuthProfile.js";
 import bodyParser from "body-parser";
 
 const app = express();
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", AuthRoute);
+app.use("/api", AuthProfile);
 app.use("/api", MaidProfile);
 
 app.get("/api/", (req, res) => {
