@@ -7,6 +7,7 @@ import sys from "os";
 import AuthRoute from "./Routes/Auths.js";
 import MaidProfile from "./Routes/MaidProfile.js";
 import AuthProfile from "./Routes/AuthProfile.js";
+import Perposal from "./Routes/PerposalRoute.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api", AuthRoute);
 app.use("/api", AuthProfile);
 app.use("/api", MaidProfile);
+app.use("/api", Perposal);
 
 app.get("/api/", (req, res) => {
   return res.send({
