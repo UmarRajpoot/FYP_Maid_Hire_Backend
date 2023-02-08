@@ -8,11 +8,17 @@ import AuthRoute from "./Routes/Auths.js";
 import MaidProfile from "./Routes/MaidProfile.js";
 import AuthProfile from "./Routes/AuthProfile.js";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.get("/", (req, res) => {
   return res.send({

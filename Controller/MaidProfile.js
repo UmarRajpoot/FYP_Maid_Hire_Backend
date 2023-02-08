@@ -1,6 +1,7 @@
 import createHttpError from "http-errors";
 import Joi from "joi";
 import MaidProfile from "../Models/MaidProfile.js";
+import Auth from "../Models/Auths.js";
 import multer from "multer";
 const upload = multer({ dest: "uploads/" });
 
@@ -16,6 +17,7 @@ export default {
         workingDays: Joi.required(),
         charges: Joi.required(),
         IDCardNumber: Joi.string().required().trim(),
+        authId: Joi.string().required().trim(),
       });
       const validatesResult = await maid_profile_schema.validateAsync(
         req.body,
@@ -174,7 +176,8 @@ export default {
         })
           .then((resp) => {
             return res.status(201).send({
-              response: resp,
+              success: true,
+              message: resp,
             });
           })
           .catch((error) => {
@@ -256,6 +259,26 @@ export default {
             );
           });
       }
+    } catch (error) {
+      return next(
+        createHttpError(406, { success: false, message: error.message })
+      );
+    }
+  },
+
+  deleteProfile: async (req, res, next) => {
+    try {
+      const { authId } = req.body;
+      const delete_Profile = await MaidProfile.destroy({
+        where: {
+          id: authId,
+        },
+      }).then((resp) => {
+        return res.send({
+          success: true,
+          message: "Deleted",
+        });
+      });
     } catch (error) {
       return next(
         createHttpError(406, { success: false, message: error.message })

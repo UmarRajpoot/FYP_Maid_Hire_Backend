@@ -145,21 +145,19 @@ export default {
               id: validatesResult.value.authID,
             },
           }
-        )
-          .then(() => {
-            return res.status(201).send({
-              success: true,
-              message: "Updated Maid Listing ID Successfully.",
-            });
-          })
-          .catch((error) => {
-            return next(
-              createHttpError(406, {
-                success: false,
-                message: error.message && error.errors,
-              })
-            );
+        );
+
+        if (AuthUpdate) {
+          const UpdatedAuth = await Auth.findOne({
+            where: {
+              id: validatesResult.value.authID,
+            },
           });
+          return res.status(201).send({
+            success: true,
+            message: UpdatedAuth,
+          });
+        }
       }
     } catch (error) {
       return next(
@@ -205,21 +203,18 @@ export default {
               id: validatesResult.value.authID,
             },
           }
-        )
-          .then(() => {
-            return res.status(201).send({
-              success: true,
-              message: "Updated Profile ID Successfully.",
-            });
-          })
-          .catch((error) => {
-            return next(
-              createHttpError(406, {
-                success: false,
-                message: error.message && error.errors,
-              })
-            );
+        );
+        if (AuthUpdate) {
+          const UpdatedAuth = await Auth.findOne({
+            where: {
+              id: validatesResult.value.authID,
+            },
           });
+          return res.status(201).send({
+            success: true,
+            message: UpdatedAuth,
+          });
+        }
       }
     } catch (error) {
       return next(
