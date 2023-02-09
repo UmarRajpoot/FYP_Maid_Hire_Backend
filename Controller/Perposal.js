@@ -2,14 +2,8 @@ import createHttpError from "http-errors";
 import Joi from "joi";
 import Perposal from "../Models/Perposal.js";
 import admin from "firebase-admin";
-
 import fs from "fs";
-import path from "path";
 
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-
-// import ServiceAccount from "../maidhiringService.json" assert { type: "json" };
 const loadJSON = (path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
 
